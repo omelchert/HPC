@@ -1,0 +1,11 @@
+
+BASE_PATH_XML=../../../HERO-CLUSTER_QSTAT_XML_OUTPUT/cronJob/
+
+for xmlFile in ${BASE_PATH_XML}/MPCS/*_201310*_h*m00.xml;
+do
+  echo $xmlFile
+  python main_slotStats.py --fromFile $xmlFile  >> ./data_slots/MPCS_nOccSlots.dat 
+done
+
+
+

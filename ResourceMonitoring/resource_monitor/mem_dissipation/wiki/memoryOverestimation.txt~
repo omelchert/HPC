@@ -1,0 +1,57 @@
+One of the most important consumable resources that needs to be allocated for a
+job is its memory.  As pointed out in the
+[SGE_Job_Management_(Queueing)_System#Memory|overview], the memory, meaning
+physical plus virtual memory, is addressed by the <code>h_vmem</code> option.
+The <code>h_vmem</code> attribute refers to the memory per job slot, i.e. it
+gets multiplied by the number of slots when submitting a parallel job.
+Different types of nodes offer different amounts of total memory for jobs to
+run. E.g., a standard node on HERO (overall number: 130) offers 23GB and a big
+node on HERO (overall number: 20) offers 46GB.
+
+The operation efficiency of the HPC system, in particuar the workload of the
+HERO component (following a fill-up allocation rule for the jobs), is directly
+linked to the allocation of memory for the jobs to be run.  For the Cluster to
+operate as efficient as possible, a proper memory allocation by the users, i.e.
+as few ''memory overestimation per job'' as possible, is inevitable. 
+
+Consider the following extreme example: a user specifies the amount of
+<code>h_vmem=1.7G</code> for a <code>12</code>-slot job. I.e., the job
+allocates an overall amount of <code>20.4G</code>.  However, upon execution the
+job only used an overall amount of approximately <code>2G</code>. The parallel
+environment for this actual example was <code>smp</code>, so the job ran on a
+single execution host and the parallel environment memory issue is no issue
+here.  Albeit this is a rather severe example of memory overestimation (about
+<code>18G</code> overall, or, <code>1.5</code> per used slot) this job does not
+block other jobs from running on that particular execution host, since it uses
+the full amount of available slots (i.e. 12 slots).
+
+However, note that there are also other examples that do have an impact on
+ohter users: a user specifies the amount of <code>h_vmem=6G</code> for a
+single-slot job, which turned out to have a peak memory usage of
+<code>36M</code>, only.  Due due memory restrictions, four such jobs cannot run
+on a single host. However, by means of three such jobs one can block lots of
+resources, leaving <code>5G</code> for the remaining 9 slots. Given the fact
+that, here, a typical job uses <code>2-3G</code>, this allows for only two
+further jobs. In this case, the memory dissipation on that host amounts to
+<code>17G</code> (in the most optimistic case). 
+
+Also, note that the above examples have to be taken with a grain of salt. In
+general there is a difference betwenn the ''peak'' memory usage of a job and
+its ''current'' memory usage. It might very well be that a job proceeds in two
+parts, (i) a part where it needs only few memory, and, (ii) a part where it
+requires a lot of memory. However, such a two step scenario seems to occur only
+rarely.
+
+In particular in late Mai and early June of 2013 there was a phase where the
+cluster was used exhaustively and where the memory overestimation by the
+individual users was a severe issue.  Consequently, to avoid such situations in
+the future, it seems to be necessary to point out the benefit of proper memory
+allocation from time to time.
+
+
+The two plots below summarize some data that quantify the memory usage for 
+the 130 standard nodes on HERO. The data was collected since 18 June 2013,
+where, once per working day, the memory usage of the nodes was monitored.
+
+
+

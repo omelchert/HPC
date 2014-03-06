@@ -1,0 +1,177 @@
+===============
+ResourceMonitor
+===============
+
+The documentation of the functions and data structures within the
+modules can be obtained from their doc-strings.
+
+
+Typical usage
+===============
+
+To get a list of the commandline options that can be used type
+
+mem_usage -h
+
+On the HERO Cluster the top-level mem_usage script might be invoked as
+
+mem_usage -l hostname=mpcs* -f
+
+which might yield the output
+
+###### OUTPUT START #####################################################
+
+# arguments: -l hostname=mpcs* -f
+# timestamp: 2013-05-08 17:52:16.353905
+# wrapped command: qstat -F -l hostname=mpcs* -xml 
+
+# histogram: not allocated memory
+# number of hosts with free slots = 74
+# (memRange in G): ***histogram-bar*** | (# hosts) (% hosts)
+ 0- 1: ******************************                                         | 32 43% 
+ 1- 2: *****************                                                      | 19 26% 
+ 2- 3:                                                                        |  1  1% 
+ 3- 4: **                                                                     |  3  4% 
+ 4- 5:                                                                        |  1  1% 
+ 5- 6: *                                                                      |  2  3% 
+ 6- 7:                                                                        |  1  1% 
+ 7- 8:                                                                        |  0  0% 
+ 8- 9:                                                                        |  1  1% 
+ 9-10:                                                                        |  1  1% 
+10-11: *                                                                      |  2  3% 
+11-12:                                                                        |  1  1% 
+12-13:                                                                        |  1  1% 
+13-14:                                                                        |  0  0% 
+14-15:                                                                        |  0  0% 
+15-16: *                                                                      |  2  3% 
+16-17:                                                                        |  0  0% 
+17-18:                                                                        |  0  0% 
+18-19:                                                                        |  0  0% 
+19-20: *****                                                                  |  6  8% 
+20-21:                                                                        |  0  0% 
+21-22:                                                                        |  0  0% 
+22-23:                                                                        |  0  0% 
+23-24:                                                                        |  1  1% 
+
+# hosts in memory range:
+ 0 -  1 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs001	  12    4 	 23.52   7.59   0.91 	 [mpc_std_shrt, mpc_std_long]
+	   2  mpcs010	  12    3 	 23.52  12.95   0.91 	 [mpc_std_shrt, mpc_std_long]
+	   3  mpcs011	  12    3 	 23.52  11.22   0.54 	 [mpc_std_shrt, mpc_std_long]
+	   4  mpcs014	  12    3 	 23.52  12.99   0.91 	 [mpc_std_shrt, mpc_std_long]
+	   5  mpcs019	  12    4 	 23.52  12.74   0.38 	 [mpc_std_shrt, mpc_std_long]
+	   6  mpcs020	  12    3 	 23.52  12.97   0.91 	 [mpc_std_shrt, mpc_std_long]
+	   7  mpcs026	  12    4 	 23.52   6.94   0.55 	 [mpc_std_shrt, mpc_std_long]
+	   8  mpcs028	  12    2 	 23.52  16.97   0.06 	 [mpc_std_shrt, mpc_std_long]
+	   9  mpcs029	  12    6 	 23.52  13.12   0.36 	 [mpc_std_shrt, mpc_std_long]
+	  10  mpcs044	  12    6 	 23.52  12.52   0.36 	 [mpc_std_shrt, mpc_std_long]
+	  11  mpcs046	  12    3 	 23.52  12.84   0.46 	 [mpc_std_shrt, mpc_std_long]
+	  12  mpcs048	  12    3 	 23.52  12.09   0.91 	 [mpc_std_shrt, mpc_std_long]
+	  13  mpcs049	  12    2 	 23.52  10.98   0.14 	 [mpc_std_shrt, mpc_std_long]
+	  14  mpcs062	  12    8 	 23.52  18.35   0.17 	 [mpc_std_shrt, mpc_std_long]
+	  15  mpcs063	  12    8 	 23.52  19.45   0.17 	 [mpc_std_shrt, mpc_std_long]
+	  16  mpcs068	  12    2 	 23.52   6.63   0.15 	 [mpc_std_shrt, mpc_std_long]
+	  17  mpcs075	  12    6 	 23.52  13.54   0.36 	 [mpc_std_shrt, mpc_std_long]
+	  18  mpcs076	  12    2 	 23.52  11.33   0.11 	 [mpc_std_shrt, mpc_std_long]
+	  19  mpcs078	  12    6 	 23.52  14.20   0.36 	 [mpc_std_shrt, mpc_std_long]
+	  20  mpcs082	  12    6 	 23.52  12.56   0.36 	 [mpc_std_shrt, mpc_std_long]
+	  21  mpcs084	  12    6 	 23.52  13.56   0.36 	 [mpc_std_shrt, mpc_std_long]
+	  22  mpcs088	  12    4 	 23.52   7.74   0.36 	 [mpc_std_shrt, mpc_std_long]
+	  23  mpcs089	  12    1 	 23.52  19.66   0.51 	 [mpc_std_shrt, mpc_std_long]
+	  24  mpcs094	  12    2 	 23.52  14.67   0.20 	 [mpc_std_shrt, mpc_std_long]
+	  25  mpcs096	  12    7 	 23.52  13.52   0.36 	 [mpc_std_shrt, mpc_std_long]
+	  26  mpcs097	  12    3 	 23.52  13.54   0.36 	 [mpc_std_shrt, mpc_std_long]
+	  27  mpcs098	  12    6 	 23.52  15.52   0.36 	 [mpc_std_shrt, mpc_std_long]
+	  28  mpcs099	  12    3 	 23.52  13.50   0.10 	 [mpc_std_shrt, mpc_std_long]
+	  29  mpcs100	  12    4 	 23.52   7.11   0.00 	 [mpc_std_shrt, mpc_std_long]
+	  30  mpcs107	  12    6 	 23.52  12.25   0.36 	 [mpc_std_shrt, mpc_std_long]
+	  31  mpcs109	  12    3 	 23.52  13.14   0.91 	 [mpc_std_shrt, mpc_std_long]
+	  32  mpcs115	  12    6 	 23.52  12.31   0.36 	 [mpc_std_shrt, mpc_std_long]
+
+ 1 -  2 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs004	  12    4 	 23.52  12.96   1.91 	 [mpc_std_shrt, mpc_std_long]
+	   2  mpcs006	  12    5 	 23.52   9.58   1.47 	 [mpc_std_shrt, mpc_std_long]
+	   3  mpcs007	  12    5 	 23.52  13.28   1.47 	 [mpc_std_shrt, mpc_std_long]
+	   4  mpcs013	  12    5 	 23.52   9.92   1.47 	 [mpc_std_shrt, mpc_std_long]
+	   5  mpcs015	  12    5 	 23.52  10.74   1.47 	 [mpc_std_shrt, mpc_std_long]
+	   6  mpcs018	  12    5 	 23.52   8.38   1.30 	 [mpc_std_shrt, mpc_std_long]
+	   7  mpcs021	  12    4 	 23.52   9.41   1.45 	 [mpc_std_shrt, mpc_std_long]
+	   8  mpcs022	  12    5 	 23.52  11.33   1.47 	 [mpc_std_shrt, mpc_std_long]
+	   9  mpcs034	  12    3 	 23.52  19.60   1.19 	 [mpc_std_shrt, mpc_std_long]
+	  10  mpcs035	  12    4 	 23.52  13.06   1.38 	 [mpc_std_shrt, mpc_std_long]
+	  11  mpcs039	  12    5 	 23.52  10.94   1.47 	 [mpc_std_shrt, mpc_std_long]
+	  12  mpcs041	  12    3 	 23.52  11.26   1.75 	 [mpc_std_shrt, mpc_std_long]
+	  13  mpcs061	  12    8 	 23.52  18.75   1.14 	 [mpc_std_shrt, mpc_std_long]
+	  14  mpcs071	  12    5 	 23.52   9.57   1.47 	 [mpc_std_shrt, mpc_std_long]
+	  15  mpcs074	  12    5 	 23.52  12.46   1.47 	 [mpc_std_shrt, mpc_std_long]
+	  16  mpcs086	  12    4 	 23.52  13.13   1.38 	 [mpc_std_shrt, mpc_std_long]
+	  17  mpcs095	  12    7 	 23.52  23.24   1.00 	 [mpc_std_shrt, mpc_std_long]
+	  18  mpcs105	  12    5 	 23.52  10.79   1.47 	 [mpc_std_shrt, mpc_std_long]
+	  19  mpcs124	  12    7 	 23.52  13.81   1.33 	 [mpc_std_shrt, mpc_std_long]
+
+ 2 -  3 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs114	  12    1 	 23.52  13.73   2.69 	 [mpc_std_shrt, mpc_std_long]
+
+ 3 -  4 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs058	  12    1 	 23.52  12.12   3.66 	 [mpc_std_shrt, mpc_std_long]
+	   2  mpcs120	  12    1 	 23.52  13.02   3.66 	 [mpc_std_shrt, mpc_std_long]
+	   3  mpcs122	  12    1 	 23.52  12.91   3.66 	 [mpc_std_shrt, mpc_std_long]
+
+ 4 -  5 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs057	  12    6 	 23.52  10.77   4.38 	 [mpc_std_shrt, mpc_std_long]
+
+ 5 -  6 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs027	  12    6 	 23.52  11.90   5.91 	 [mpc_std_shrt, mpc_std_long]
+	   2  mpcs053	  12    5 	 23.52  18.03   5.19 	 [mpc_std_shrt, mpc_std_long]
+
+ 6 -  7 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs103	  12    6 	 23.52  13.13   6.35 	 [mpc_std_shrt, mpc_std_long]
+
+ 8 -  9 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs030	  12    7 	 23.52  14.03   8.35 	 [mpc_std_shrt, mpc_std_long]
+
+ 9 - 10 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs025	  12    7 	 23.52  13.93   9.83 	 [mpc_std_shrt, mpc_std_long]
+
+10 - 11 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs002	  12    5 	 23.52  20.83  10.70 	 [mpc_std_shrt, mpc_std_long]
+	   2  mpcs077	  12    4 	 23.52  17.31  10.50 	 [mpc_std_shrt, mpc_std_long]
+
+11 - 12 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs037	  12    4 	 23.52  23.28  11.28 	 [mpc_std_shrt, mpc_std_long]
+
+12 - 13 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs009	  12    8 	 23.52  17.79  12.26 	 [mpc_std_shrt, mpc_std_long]
+
+15 - 16 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs093	  12    4 	 23.52  23.24  15.19 	 [mpc_std_shrt, mpc_std_long]
+	   2  mpcs117	  12    8 	 23.52  22.99  15.97 	 [mpc_std_shrt, mpc_std_long]
+
+19 - 20 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs125	  12   12 	 23.52  23.12  19.00 	 [mpc_xtr_subq, mpc_xtr_iact]
+	   2  mpcs126	  12   12 	 23.52  23.43  19.00 	 [mpc_xtr_subq, mpc_xtr_iact]
+	   3  mpcs127	  12   12 	 23.52  22.95  19.00 	 [mpc_xtr_subq, mpc_xtr_iact]
+	   4  mpcs128	  12   12 	 23.52  22.82  19.00 	 [mpc_xtr_subq, mpc_xtr_iact]
+	   5  mpcs129	  12   12 	 23.52  22.89  19.00 	 [mpc_xtr_subq, mpc_xtr_iact]
+	   6  mpcs130	  12   12 	 23.52  22.84  19.00 	 [mpc_xtr_subq, mpc_xtr_iact]
+
+23 - 24 G:
+	(nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]
+	   1  mpcs066	  12   12 	 23.52  23.39  23.00 	 [mpc_std_shrt, mpc_std_long]
+
+###### OUTPUT END   #####################################################
+

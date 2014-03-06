@@ -1,0 +1,83 @@
+"""main_dissipation.py 
+
+BRIEF  implements function that parses xml output of qstat 
+       and filters for resource information related to the hosts.
+       Here, the pivotal resource processed further is the 
+       memory consumption on the hosts. 
+
+DATE   2013-07-30
+AUTHOR Oliver Melchert
+
+VERSION HISTORY:
+	1.00.00 -- 2013-07-30
+"""
+import sys
+sys.path.append('../../')
+import commands
+import datetime
+from xml.dom.minidom import parseString
+from resource_monitor.modules.host_list import HostList
+from resource_monitor.modules.hist_ascii import histAscii_memUsage
+from resource_monitor.modules.opt_parse import myOptionParser_memUsage
+from resource_monitor.modules.utils import myGenerator
+
+
+def mainMemDissipation(argList=sys.argv[1:]):
+
+        # print auxiliary information
+        print "# arguments: %s"%(' '.join(argList))
+        print "# timestamp: %s"%(datetime.datetime.now())
+
+        # parse command line arguments
+        (myOpts,myArgs) = myOptionParser_memUsage(argList)
+
+	# construct proper call to qstat from cmdline args
+        #myWrappedCmd = "qstat -F -l %s -xml"%(myOpts.myCmd)
+        myWrappedCmd = "%s"%(myOpts.myCmd)
+	print "# wrapped command: %s \n"%(myWrappedCmd)
+        # fetch xml output from qstat as string
+        myXmlOutput = commands.getoutput(myWrappedCmd)
+        
+        try:
+                # parse string via xml.dom.minidom
+                domObj = parseString(myXmlOutput)
+        except:
+                print "could not parse xml-output obtained from: ",myWrappedCmd
+                print "exit now!"
+                sys.exit(1)
+                    
+        # filter document object for host details
+        hDict = HostList(domObj)
+
+
+        hostList = [host.name() for host in hDict.hosts.values() if host.state()!='E']
+        print "# %d hosts NOT in state E:"%(len(hostList))
+        for subList in myGenerator(hostList):
+                print '\t', ' '.join(subList)
+
+
+	sum_d = 0.
+	sum_a = 0.
+	nHosts=0
+	for host in hDict.hosts.values():
+ 	   if host.usedSlots()>0 and host.state()!='E':
+		host_a = 1.-host.mem_used/(host.mem_total-host.mem_notAlloc)
+		host_d = (host.mem_total-host.mem_notAlloc) - host.mem_used
+		print host.name(), host.usedSlots(), host_a, (host.mem_total-host.mem_notAlloc),host.mem_used, host_d/host.usedSlots()
+		sum_d += host_d/host.usedSlots()
+		sum_a += host_a
+		nHosts+=1
+	print sum_d/nHosts, sum_a/nHosts
+	
+
+
+	# sorted list of memory overestimation for hosts (worst come first!)
+        if myOpts.flag_memOverestim:	
+		print "\n# memory overestimation: 1-freeMemory/notAllocMemory \in [0,1]"
+		print "# values >0.5 are rather bad! Reverse sorted list (worst come firsrt):"
+		print "(rank) (mem. overestimation) (nr) (hostName) (total/free slots) (total/free/notAlloc memory) [queue instances]"
+		for idx,host in enumerate(sorted(hDict.hostList(),key=lambda h: 1.-h.notAllocMemory()/h.freeMemory(),reverse=True)):
+			print "%3d \t %4.3lf \t%s"%(idx+1,1.-host.notAllocMemory()/host.freeMemory(), host)
+
+	
+mainMemDissipation()

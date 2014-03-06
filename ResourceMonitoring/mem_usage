@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+"""mem_usage 
+
+BRIEF  imports function that parses xml output of qstat 
+       and filters for resource information related to the hosts.
+       Here, the pivotal resource processed further is the 
+       memory consumption on the hosts. A simple ascii histogram
+       that illustrates the memory consumption is sent to stdout.
+
+       NOTE: this file only imports a module specified in 
+       dev.main_mem_usage_v2
+
+DATE   2013-05-08
+AUTHOR Oliver Melchert
+
+VERSION HISTORY:
+	1.00.00 -- 2013-05-08
+"""
+from resource_monitor.dev.main_mem_usage_v2 import mainMemUsage
+mainMemUsage()
